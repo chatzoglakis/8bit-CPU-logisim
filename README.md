@@ -8,7 +8,7 @@ The CPUs datapath includes 6 8 bit registers: PC, IR, MAR, MDR, ACC, OUT, an ALU
 ## The ALU
 The ALU is comprised by 8 smaller 1 bit ALUs that allow a specific operation between A and B to pass to C, depending on the selection bits (the 3 bit input on the top right). 
 - The 1 bit input on the top is the sub signal. It is used to toggle between addition and subtraction, since they share the same circuitry, and hence the same select bits.
-- The messy wires that connect the "Nright" and "Nleft" are used for shift operations
+- The messy wires that connect the "Nright" and "Nleft" of each 1 bit ALU are used for shift operations
 - The 1 bit input at the left bottom is the "ash" signal. It is used to toggle between logical and arithmetic shifts (the latter are used in signeed numbers, allowing them to retain their sign bit during shifts)
 <img width="776" height="821" alt="{54A11552-550F-4561-8B95-6C48C1418330}" src="https://github.com/user-attachments/assets/346962ed-3aea-4e10-a177-b7bc74e6120b" />
 
@@ -24,3 +24,14 @@ The operations supported by each 1 bit ALU are the following:
 - NOT (NOT B)
 
 <img width="837" height="817" alt="{EAC9C4ED-B94D-40F2-BB7F-407475E02A64}" src="https://github.com/user-attachments/assets/befe343d-52b7-4ab2-acb3-619af72c5796" />
+
+## The Registers
+The CPU has 6 specific purpose registers, that communicate via a data bus:
+| Register | Mnemonic | Description |
+|----------|----------|-------------|
+| Memory Address Register | MAR | Holds memory addresses that are used to read/write to RAM |
+| Memory Data Register | MDR | Holds data that are read/written to RAM |
+| Program Counter | PC | Keeps track of the current instruction address. It's value is incremented by 1 at the start of every instruction (unless it's a branching instruction), in order to access the next |
+| Accumulator | ACC | Is used as an operand for every arithmetic or logical operation |
+| Instruction Register | IR | Holds the current instruction that's being executed and passes it as input to the control unit |
+| Out Register | OUT | Holds the value that is shown by the 2 hex displays |
