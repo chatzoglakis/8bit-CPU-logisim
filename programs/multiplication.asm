@@ -1,3 +1,5 @@
+//This Program implements the Russian Peasant Algorithm to multiply the numbers 5 and 3
+
 LDI 00
 STA FD     // FD holds the final result
 
