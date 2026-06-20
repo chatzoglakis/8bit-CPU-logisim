@@ -1,5 +1,24 @@
 import sys
 
+
+def find_labels(lines):
+    label_addresses = {}
+    curr_byte = 0
+
+    for line in lines:
+        # check for comments
+        line = line.split("//")[0].strip().upper()
+        if not line:
+            continue
+
+        if ":" in line:
+            label = line.split(":")[0]
+            label_addresses[label] = str(hex(curr_byte))
+            continue
+        curr_byte += 1
+
+    return label_addresses
+
 opcodes =\
     {"ADD": "00",
      "SUB": "01",
@@ -29,33 +48,52 @@ opcodes =\
      "OUT": "19",
      "HLT": "1a"}
 
-if len(sys.argv) != 2:
-    print("SYNTAX ERROR\n correct format should be \"python assembler.py <filename>")
+if len(sys.argv) < 2 or len(sys.argv) > 3:
+    print("SYNTAX ERROR\n correct format should be \"python assembler.py <src filename> <dst filename>(optional)")
     sys.exit(1)
 
 input_file = sys.argv[1]
-output_file = "code.txt"
+if len(sys.argv) == 3:
+    output_file = sys.argv[2]
+else:
+    output_file = "code.txt"
 
 with open(input_file, "r") as file:
     lines = file.readlines()
 
+labels = find_labels(lines)
+
 machine_code = []
 
 for line in lines:
+    #check for comments
     line = line.split("//")[0].strip().upper()
     if not line:
         continue
 
+    # check if there is a label "declaration"
+    has_label_declaration = False
+    declared_label = ""
+    if ":" in line:
+        has_label_declaration = True
+        declared_label = line.split(":")[0]
+
     fields = line.split(" ")
-    instruction = fields[0]
+    index = 0
+    if has_label_declaration:
+        index += 1
+
+    instruction = fields[index]
 
     if instruction in opcodes:
         machine_code.append(opcodes[instruction] + ' ')
 
         if len(fields) > 1:
-            operand = fields[1]
+            index += 1
+            operand = fields[index]
+            if operand in labels and operand != declared_label:
+                operand = labels[operand]
             machine_code.append(operand + ' ')
-
     else:
         print("ERROR: UNKNOWN INSTRUCTION: " + instruction)
         sys.exit(1)
@@ -66,4 +104,3 @@ with open(output_file, 'w') as file:
         file.write(element)
 
 print("ASSEMBLY SUCCESSFUL")
-
