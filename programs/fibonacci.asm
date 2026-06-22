@@ -3,7 +3,7 @@ OUT
 STA FF
 STA FE
 
-ADD FE
+loop: ADD FE
 OUT
 STA FD
 LDA FF
@@ -11,8 +11,5 @@ STA FE
 LDA FD
 STA FF
 CMPI 7F
-JLT 07
+JLT loop
 HLT
-
-
-
