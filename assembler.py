@@ -94,6 +94,8 @@ for line in lines:
     index = 0
     if has_label_declaration:
         index += 1
+        if len(fields) == 1:
+            continue
 
     instruction = fields[index]
 
@@ -116,4 +118,3 @@ with open(output_file, 'w') as file:
         file.write(element)
 
 print("ASSEMBLY SUCCESSFUL")
-
