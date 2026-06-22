@@ -1,6 +1,5 @@
 import sys
 
-
 def find_labels(lines):
     label_addresses = {}
     curr_byte = 0
@@ -11,11 +10,24 @@ def find_labels(lines):
         if not line:
             continue
 
+        fields = line.split(" ")
+
         if ":" in line:
             label = line.split(":")[0]
-            label_addresses[label] = str(hex(curr_byte))
-            continue
-        curr_byte += 1
+            num_string = str(hex(curr_byte))
+            num_string = num_string.replace("0x", "") #remove 0x so that only the hex number remains
+            label_addresses[label] = num_string
+
+            if len(fields) > 2:
+                curr_byte += 2
+            elif len(fields) > 1:
+                curr_byte += 1
+        else:
+            if len(fields) > 1:
+                curr_byte += 2
+            else:
+                curr_byte += 1
+
 
     return label_addresses
 
@@ -104,3 +116,4 @@ with open(output_file, 'w') as file:
         file.write(element)
 
 print("ASSEMBLY SUCCESSFUL")
+
