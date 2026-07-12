@@ -37,7 +37,7 @@ The CPU has 6 specific purpose registers, that communicate via a data bus:
 | **`Out Register`** | **`OUT`** | Holds the value that is shown by the 2 hex displays |
 
 ## The Instruction Set
-The CPU includes 26 instructions. Those with an operand (like "ADD x" or "JMP x") are 16 bits long, with the upper 8 bits being used for the opcode and the 8 lower for the memory address. This allows the CPU to access 256 bytes of memory, but requires 2 separate memory fetches for each 16 bit instruction, since the data bus and the registers are only 8 bits long. Instructions without an operand (like "OUT" or "HLT") are 8 bits long and only require a single fetch before executing. The table below describes the 26 instructions: 
+The CPU includes 27 instructions. Those with an operand (like "ADD x" or "JMP x") are 16 bits long, with the upper 8 bits being used for the opcode and the 8 lower for the memory address. This allows the CPU to access 256 bytes of memory, but requires 2 separate memory fetches for each 16 bit instruction, since the data bus and the registers are only 8 bits long. Instructions without an operand (like "OUT" or "HLT") are 8 bits long and only require a single fetch before executing. The table below describes the 26 instructions: 
 | Opcode | Mnemonic | Description |
 | :--- | :--- | :--- |
 | **`0x00`** | **`ADD`** | Adds a value from a specific memory address to the Accumulator. |
